@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(0, movement * speed);
 
         // clamp y-axis
-        float clampedY = Mathf.Clamp(transform.position.y, -3f, 3f);
+        float clampedY = Mathf.Clamp(transform.position.y, -8f, 8f);
         transform.position = new Vector2(transform.position.x, clampedY);
     }
 }
