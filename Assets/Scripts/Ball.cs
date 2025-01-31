@@ -25,4 +25,9 @@ public class Ball : MonoBehaviour
         Vector2 direction = new Vector2(initX, initY).normalized;
         rb.linearVelocity = direction * speed;
     }
+
+    public Vector2 GetPosition()
+    {
+        return rb.position;
+    }
 }
