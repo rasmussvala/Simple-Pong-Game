@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -20,11 +21,23 @@ public class Ball : MonoBehaviour
 
     public void ResetPosition()
     {
+        // reset all moving values of the ball
         speed = originalSpeed;
-        rb.position = new Vector2(0f, 0f);
+        rb.position = Vector2.zero;
         rb.rotation = 0f;
         rb.angularVelocity = 0f;
-        float initX = -1f;
+        rb.linearVelocity = Vector2.zero;
+        // transform.rotation = Quaternion.identity; // donno what this does
+
+        // trigger a coroutine to add a delay before ball is being lauched
+        StartCoroutine(LaunchBallAfterDelay(1f));
+    }
+
+    private IEnumerator LaunchBallAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        float initX = Random.Range(0, 2) == 0 ? -1f : 1f;
         float initY = Random.Range(-0.5f, 0.5f);
 
         Vector2 direction = new Vector2(initX, initY).normalized;
@@ -33,7 +46,7 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Increase speed when hitting a paddle or wall
+        // increase speed when hitting a paddle or wall
         speed += speedIncrease;
         rb.linearVelocity = rb.linearVelocity.normalized * speed;
     }
