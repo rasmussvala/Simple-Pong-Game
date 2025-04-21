@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,36 +7,33 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerScoreText;
     public TextMeshProUGUI opponentScoreText;
     public GameObject pauseMenu;
-    private int playerScore = 0;
-    private int opponentScore = 0;
-    private bool isPaused = false;
+    private bool _isPaused;
+    private int _opponentScore;
+    private int _playerScore;
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
+        if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
     }
 
     public void PlayerScores()
     {
-        playerScore++;
-        playerScoreText.text = playerScore.ToString();
+        _playerScore++;
+        playerScoreText.text = _playerScore.ToString();
         ball.ResetPosition();
     }
 
     public void OpponentScores()
     {
-        opponentScore++;
-        opponentScoreText.text = opponentScore.ToString();
+        _opponentScore++;
+        opponentScoreText.text = _opponentScore.ToString();
         ball.ResetPosition();
     }
 
-    void TogglePause()
+    private void TogglePause()
     {
-        isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0 : 1;
-        pauseMenu.SetActive(isPaused);
+        _isPaused = !_isPaused;
+        Time.timeScale = _isPaused ? 0 : 1;
+        pauseMenu.SetActive(_isPaused);
     }
 }

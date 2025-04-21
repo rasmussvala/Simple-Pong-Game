@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 58324318}
   m_Layer: 0
   m_Name: WallLeft
-  m_TagString: Untagged
+  m_TagString: ScoringZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1019.3999, y: 0, z: -980.78613, w: -494.25452}
+  m_margin: {x: -636.97034, y: 0, z: -637.9478, w: -82.177734}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1058,8 +1058,8 @@ GameObject:
   - component: {fileID: 840502036}
   - component: {fileID: 840502035}
   m_Layer: 0
-  m_Name: Wallright
-  m_TagString: Untagged
+  m_Name: WallRight
+  m_TagString: ScoringZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1546,8 +1546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9112cfc424f1f4ab88cf641fa6aa2194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  currentSpeed: 10
   speedIncrease: 1
+  startingSpeed: 10
 --- !u!50 &1430278152
 Rigidbody2D:
   serializedVersion: 5

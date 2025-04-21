@@ -3,22 +3,22 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 10f;
-    public string inputAxis = "Vertical";
-    private Rigidbody2D rb;
+    private Rigidbody2D _rigidbody;
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
         // move body
-        float movement = Input.GetAxis(inputAxis);
-        rb.linearVelocity = new Vector2(0, movement * speed);
+        var direction =
+            Input.GetAxis("Vertical"); // smoothed input (–1 down to +1 up) based on how long the key is held
+        _rigidbody.linearVelocity = new Vector2(0f, direction * speed);
 
         // clamp y-axis
-        float clampedY = Mathf.Clamp(transform.position.y, -8f, 8f);
+        var clampedY = Mathf.Clamp(transform.position.y, -8f, 8f);
         transform.position = new Vector2(transform.position.x, clampedY);
     }
 }

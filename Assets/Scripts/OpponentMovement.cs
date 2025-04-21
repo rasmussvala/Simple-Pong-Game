@@ -3,23 +3,29 @@ using UnityEngine;
 public class OpponentMovement : MonoBehaviour
 {
     public float speed = 5f;
-
     public Ball ball;
-    private Rigidbody2D rb;
+    private Rigidbody2D _rigidbody;
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        float targetY = ball.GetPosition().y;
+        UpdatePaddlePosition();
+    }
 
-        float newY = Mathf.MoveTowards(rb.position.y, targetY, speed * Time.fixedDeltaTime);
+    private void UpdatePaddlePosition()
+    {
+        var currentBallPosition = ball.GetPosition().y;
 
-        newY = Mathf.Clamp(newY, -8f, 8f);
+        // find next position
+        var nextPositionY = Mathf.MoveTowards(_rigidbody.position.y, currentBallPosition, speed * Time.fixedDeltaTime);
+        var nextPositionClampedY = Mathf.Clamp(nextPositionY, -8f, 8f);
 
-        rb.MovePosition(new Vector2(rb.position.x, newY));
+        // move paddle
+        var target = new Vector2(_rigidbody.position.x, nextPositionClampedY);
+        _rigidbody.MovePosition(target);
     }
 }

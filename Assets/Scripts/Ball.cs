@@ -3,33 +3,45 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public float speed = 10f;
-    private float originalSpeed;
+    public float currentSpeed;
     public float speedIncrease = 1f;
-    private Rigidbody2D rb;
+    public float startingSpeed = 10f;
+    private Rigidbody2D _rigidbody;
 
-    void Awake()
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        originalSpeed = speed;
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    private void Start()
     {
         ResetPosition();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("ScoringZone"))
+            return;
+
+        // add speed to ball, new direction's update automatically since
+        // we have physics material on the ball. we just need to add
+        // speed to the current direction.
+        currentSpeed += speedIncrease;
+
+        var direction = _rigidbody.linearVelocity.normalized;
+        _rigidbody.linearVelocity = direction * currentSpeed;
     }
 
     public void ResetPosition()
     {
         // reset all moving values of the ball
-        speed = originalSpeed;
-        rb.position = Vector2.zero;
-        rb.rotation = 0f;
-        rb.angularVelocity = 0f;
-        rb.linearVelocity = Vector2.zero;
-        // transform.rotation = Quaternion.identity; // donno what this does
+        currentSpeed = startingSpeed;
+        _rigidbody.position = Vector2.zero;
+        _rigidbody.rotation = 0f;
+        _rigidbody.angularVelocity = 0f;
+        _rigidbody.linearVelocity = Vector2.zero;
 
-        // trigger a coroutine to add a delay before ball is being lauched
+        // trigger a coroutine to add a delay before ball is being launched
         StartCoroutine(LaunchBallAfterDelay(1f));
     }
 
@@ -37,22 +49,15 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        float initX = Random.Range(0, 2) == 0 ? -1f : 1f;
-        float initY = Random.Range(-0.5f, 0.5f);
+        const float launchDirectionX = -1f; // always towards player
+        var launchDirectionY = Random.Range(-0.5f, 0.5f);
 
-        Vector2 direction = new Vector2(initX, initY).normalized;
-        rb.linearVelocity = direction * speed;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // increase speed when hitting a paddle or wall
-        speed += speedIncrease;
-        rb.linearVelocity = rb.linearVelocity.normalized * speed;
+        var direction = new Vector2(launchDirectionX, launchDirectionY).normalized;
+        _rigidbody.linearVelocity = direction * startingSpeed;
     }
 
     public Vector2 GetPosition()
     {
-        return rb.position;
+        return _rigidbody.position;
     }
 }
